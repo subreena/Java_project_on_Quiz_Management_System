@@ -2,31 +2,32 @@
 
 A Java-based role-based quiz management system that allows administrators to create quiz questions and students to take quizzes with automatic scoring.
 
-##  Features
+## Video Demo
+[Demo Link](https://drive.google.com/file/d/1a2uEbl-twBGuGfLTncksbUkF1_KcQpLQ/view?usp=sharing) . The demo shows: 
+– Admin login and adding questions 
+– Student login and completing a quiz
 
+##  Features
 ### Admin Features
--  Secure login authentication
-- Add multiple-choice questions (MCQs) to question bank
+-  Add multiple-choice questions (MCQs) to question bank
 -  Store questions with 4 options and answer key
 -  Continuous question addition capability
 -  Persistent storage in JSON format
 
 ### Student Features
--  Secure login authentication
-- Take quiz with 10 randomly selected questions
-- Immediate feedback on performance
--  Multiple quiz attempts allowed
-- Performance-based grading system
 
+- Take quiz with 10 randomly selected questions 
+- Immediate feedback on performance 
+- Multiple quiz attempts allowed
 
-## 📄 File Descriptions
-
+## File Descriptions
 ### `users.json`
 Stores user credentials and roles:
 ```json
 [
   { "username": "admin", "password": "1234", "role": "admin" },
-  { "username": "salman", "password": "1234", "role": "student" }
+  { "username": "salman", "password": "1234", "role": "student" },
+  { "username": "subreena", "password": "1234", "role": "student" }
 ]
 ```
 
@@ -51,27 +52,6 @@ Stores all quiz questions with options and answer keys:
 - Java 11 or higher
 - Gradle (or use Gradle wrapper)
 
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/quiz-management-system.git
-cd quiz-management-system
-```
-
-2. Ensure `users.json` and `quiz.json` files exist in the root directory
-
-3. Build the project:
-```bash
-gradle build
-```
-
-4. Run the application:
-```bash
-gradle run
-```
-
-## 📖 Usage Guide
 
 ### Admin Login
 1. Enter username: `admin`
@@ -129,7 +109,7 @@ Student:> 4
 ...
 ```
 
-## 📊 Scoring System
+## Scoring System
 
 | Score Range | Performance Level | Message |
 |------------|-------------------|---------|
@@ -138,19 +118,20 @@ Student:> 4
 | 3-4 | Very Poor | "Very poor! You have got [marks] out of 10" |
 | 0-2 | Failed | "Very sorry you are failed. You have got [marks] out of 10" |
 
-##  Video Demo
 
+### Installation
 
+1. Clone this repository:
 
-**Demo includes:**
--  Admin login and adding questions
--  Student login and completing a quiz
--  Score calculation and feedback display
+2. Ensure `users.json` and `quiz.json` files exist in the correct directory
 
+3. Build the project
 
-## 🔍 Quiz Flow
+4. Run the application in Intellij Idea
 
-The system comes pre-loaded with **20 SQA (Software Quality Assurance)** related questions covering topics such as:
+## Quiz Flow
+
+The system contains **20 SQA (Software Quality Assurance)** related questions covering topics such as:
 - Testing types (Unit, Integration, System, Acceptance)
 - Testing techniques (Black box, White box)
 - Testing principles
@@ -158,9 +139,3 @@ The system comes pre-loaded with **20 SQA (Software Quality Assurance)** related
 - Defect management
 - Performance testing
 - Security testing
-
-
-
----
-
-**Note:** Make sure to keep your `users.json` and `quiz.json` files secure in production environments.

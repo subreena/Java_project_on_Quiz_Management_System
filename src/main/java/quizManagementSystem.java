@@ -4,14 +4,11 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
-
 public class quizManagementSystem {
-    private static final String USERS_FILE = "./src/main/resources/users.json";
-    private static final String QUIZ_FILE = "./src/main/resources/quiz.json";
 
-    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("System:> Enter your username");
         System.out.print("User:> ");
         String username = scanner.nextLine();
@@ -33,10 +30,11 @@ public class quizManagementSystem {
         }
     }
 
+    //login
     private static JSONObject authenticateUser(String username, String password) {
         try {
-            JSONParser parser = new JSONParser();
-            JSONArray users = (JSONArray) parser.parse(new FileReader(USERS_FILE));
+            JSONParser jsonParser = new JSONParser();
+            JSONArray users = (JSONArray) jsonParser.parse(new FileReader("./src/main/resources/users.json"));
 
             for (Object obj : users) {
                 JSONObject user = (JSONObject) obj;
@@ -50,8 +48,11 @@ public class quizManagementSystem {
         return null;
     }
 
+    //create quiz
+
     private static void adminFlow(String username) {
-        System.out.println("System:> Welcome " + username + "! Please create new questions in the question bank.");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("System:> Welcome " + username + "! \nPlease create new questions in the question bank.");
 
         while (true) {
             System.out.println("\nSystem:> Input your question");
@@ -92,11 +93,11 @@ public class quizManagementSystem {
 
     private static void saveQuestion(String question, String opt1, String opt2, String opt3, String opt4, int answerKey) {
         try {
-            JSONParser parser = new JSONParser();
+            JSONParser jsonParser = new JSONParser();
             JSONArray questions;
 
             try {
-                questions = (JSONArray) parser.parse(new FileReader(QUIZ_FILE));
+                questions = (JSONArray) jsonParser.parse(new FileReader("./src/main/resources/quiz.json"));
             } catch (Exception e) {
                 questions = new JSONArray();
             }
@@ -111,7 +112,7 @@ public class quizManagementSystem {
 
             questions.add(questionObj);
 
-            FileWriter writer = new FileWriter(QUIZ_FILE);
+            FileWriter writer = new FileWriter("./src/main/resources/quiz.json");
             writer.write(questions.toJSONString());
             writer.flush();
             writer.close();
@@ -121,14 +122,15 @@ public class quizManagementSystem {
     }
 
     private static void studentFlow(String username) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("System:> Welcome " + username + " to the quiz! We will throw you 10 questions. Each MCQ mark is 1 and no negative marking. Are you ready? Press 's' to start.");
+            System.out.println("System:> Welcome " + username + " to the quiz! \nWe will throw you 10 questions. Each MCQ mark is 1 and no negative marking. Are you ready? Press 's' to start.");
             System.out.print("Student:> ");
             String start = scanner.nextLine();
 
             if (start.equalsIgnoreCase("s")) {
-                int score = conductQuiz();
-                displayScore(score);
+                int marks = conductQuiz();
+                displayMarks(marks);
 
                 System.out.println("\nSystem:> Would you like to start again? Press 's' for start or 'q' for quit");
                 System.out.print("Student:> ");
@@ -143,9 +145,10 @@ public class quizManagementSystem {
     }
 
     private static int conductQuiz() {
+        Scanner scanner = new Scanner(System.in);
         try {
-            JSONParser parser = new JSONParser();
-            JSONArray questions = (JSONArray) parser.parse(new FileReader(QUIZ_FILE));
+            JSONParser jsonParser = new JSONParser();
+            JSONArray questions = (JSONArray) jsonParser.parse(new FileReader("./src/main/resources/quiz.json"));
 
             if (questions.isEmpty()) {
                 System.out.println("System:> No questions available in the quiz bank!");
@@ -153,7 +156,7 @@ public class quizManagementSystem {
             }
 
             Random random = new Random();
-            int score = 0;
+            int marks = 0;
 
             for (int i = 1; i <= 10; i++) {
                 int randomIndex = random.nextInt(questions.size());
@@ -171,31 +174,31 @@ public class quizManagementSystem {
                     long correctAnswer = (long) question.get("answerkey");
 
                     if (answer == correctAnswer) {
-                        score++;
+                        marks++;
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("System:> Invalid input! Skipping question.");
                 }
             }
 
-            return score;
+            return marks;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    private static void displayScore(int score) {
-        System.out.println("\n========================================");
-        if (score >= 8 && score <= 10) {
-            System.out.println("Excellent! You have got " + score + " out of 10");
-        } else if (score >= 5 && score <= 7) {
-            System.out.println("Good. You have got " + score + " out of 10");
-        } else if (score >= 3 && score <= 4) {
-            System.out.println("Very poor! You have got " + score + " out of 10");
+    private static void displayMarks(int marks) {
+        System.out.println("\n===============================================================");
+        if (marks >= 8 && marks <= 10) {
+            System.out.println("Excellent! You have got " + marks + " out of 10");
+        } else if (marks >= 5 && marks <= 7) {
+            System.out.println("Good. You have got " + marks + " out of 10");
+        } else if (marks >= 3 && marks <= 4) {
+            System.out.println("Very poor! You have got " + marks + " out of 10");
         } else {
-            System.out.println("Very sorry you are failed. You have got " + score + " out of 10");
+            System.out.println("Very sorry you are failed. You have got " + marks + " out of 10");
         }
-        System.out.println("========================================");
+        System.out.println("===============================================================");
     }
 }

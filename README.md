@@ -46,7 +46,7 @@ Stores all quiz questions with options and answer keys:
 ]
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Java 11 or higher
